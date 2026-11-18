@@ -13,7 +13,20 @@ const recommendationService = new ClothingRecommendationService();
 
 app.disable('x-powered-by');
 app.use(helmet());
-app.use(cors({ origin: config.frontendOrigin }));
+app.use(cors({
+  origin(origin, callback) {
+    if (!origin) {
+      callback(null, true);
+      return;
+    }
+    const allowedOrigins = config.frontendOrigin
+      .split(',')
+      .map((value) => value.trim())
+      .filter(Boolean);
+    callback(null, allowedOrigins.includes(origin));
+  },
+  credentials: true
+}));
 app.use(express.json({ limit: '16kb' }));
 app.use(rateLimit({ windowMs: 60_000, limit: 60, standardHeaders: 'draft-7', legacyHeaders: false }));
 
@@ -37,4 +50,5 @@ if (process.env.NODE_ENV !== 'test' && !process.env.VERCEL) {
   });
 }
 
+export default app;
 export { app };
