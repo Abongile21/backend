@@ -10,6 +10,10 @@ import { createClothingRouter } from './routes/clothing.routes.js';
 const app = express();
 const fortyGuardApi = new FortyGuardApiService(config);
 const recommendationService = new ClothingRecommendationService();
+const defaultFrontendOrigins = [
+  'http://localhost:4200',
+  'https://frontend-forty-guard.vercel.app'
+];
 
 app.disable('x-powered-by');
 app.use(helmet());
@@ -23,7 +27,7 @@ app.use(cors({
       .split(',')
       .map((value) => value.trim())
       .filter(Boolean);
-    callback(null, allowedOrigins.includes(origin));
+    callback(null, [...allowedOrigins, ...defaultFrontendOrigins].includes(origin));
   },
   credentials: true
 }));

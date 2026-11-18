@@ -7,7 +7,7 @@ function positiveInteger(value, fallback) {
 
 export const config = Object.freeze({
   port: positiveInteger(process.env.PORT, 3000),
-  frontendOrigin: process.env.FRONTEND_ORIGIN || 'http://localhost:4200',
+  frontendOrigin: process.env.FRONTEND_ORIGIN || 'http://localhost:4200,https://frontend-forty-guard.vercel.app',
   fortyGuardBaseUrl: process.env.FORTYGUARD_API_BASE_URL || 'https://api.fortyguard.com',
   fortyGuardApiKey: process.env.FORTYGUARD_API_KEY || '',
   fortyGuardEnvParamsPath: process.env.FORTYGUARD_ENV_PARAMS_PATH || '/v1/env_params',
