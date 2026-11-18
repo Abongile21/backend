@@ -16,7 +16,6 @@ export function createLocationRouter({ geocodingBaseUrl, fetchImpl = fetch }) {
       url.searchParams.set('format', 'jsonv2');
       url.searchParams.set('addressdetails', '1');
       url.searchParams.set('limit', '6');
-      url.searchParams.set('countrycodes', 'us');
 
       const upstream = await fetchImpl(url, {
         headers: {
@@ -31,11 +30,24 @@ export function createLocationRouter({ geocodingBaseUrl, fetchImpl = fetch }) {
       const locations = Array.isArray(payload)
         ? payload
           .filter((item) => Number.isFinite(Number(item.lat)) && Number.isFinite(Number(item.lon)))
-          .map((item) => ({
-            name: item.display_name,
-            latitude: Number(item.lat),
-            longitude: Number(item.lon)
-          }))
+          .map((item) => {
+            const address = item.address || {};
+            const city = address.city || address.town || address.village ||
+              address.municipality || address.county || item.name;
+            const region = address.state || address.region || address.county;
+            const country = address.country;
+            const secondary = [region, country].filter(Boolean).filter((value, index, values) =>
+              values.indexOf(value) === index
+            ).join(', ');
+
+            return {
+              name: city,
+              secondary,
+              displayName: [city, secondary].filter(Boolean).join(', '),
+              latitude: Number(item.lat),
+              longitude: Number(item.lon)
+            };
+          })
         : [];
       response.json({ locations });
     } catch (error) {
