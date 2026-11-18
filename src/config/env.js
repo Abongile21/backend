@@ -14,6 +14,7 @@ export const config = Object.freeze({
   fortyGuardStatusPath: process.env.FORTYGUARD_STATUS_PATH || '/v1/status',
   fortyGuardLiveEnabled: process.env.FORTYGUARD_LIVE_ENABLED === 'true',
   fortyGuardResponseMappingVerified: false,
+  geocodingBaseUrl: process.env.GEOCODING_BASE_URL || 'https://nominatim.openstreetmap.org',
   requestTimeoutMs: positiveInteger(process.env.FORTYGUARD_REQUEST_TIMEOUT_MS, 15000),
   pollIntervalMs: positiveInteger(process.env.FORTYGUARD_POLL_INTERVAL_MS, 2000),
   maxPollAttempts: positiveInteger(process.env.FORTYGUARD_MAX_POLL_ATTEMPTS, 30)

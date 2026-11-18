@@ -6,6 +6,7 @@ import { config } from './config/env.js';
 import { FortyGuardApiService } from './services/fortyguard-api.service.js';
 import { ClothingRecommendationService } from './services/clothing-recommendation.service.js';
 import { createClothingRouter } from './routes/clothing.routes.js';
+import { createLocationRouter } from './routes/location.routes.js';
 
 const app = express();
 const fortyGuardApi = new FortyGuardApiService(config);
@@ -41,6 +42,7 @@ app.get('/api/health', (_request, response) => {
   });
 });
 app.use('/api/clothing', createClothingRouter({ fortyGuardApi, recommendationService }));
+app.use('/api/location', createLocationRouter({ geocodingBaseUrl: config.geocodingBaseUrl }));
 
 app.use((error, _request, response, _next) => {
   const status = Number.isInteger(error.statusCode) ? error.statusCode : 500;
