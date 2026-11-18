@@ -31,7 +31,7 @@ app.use((error, _request, response, _next) => {
   response.status(status).json({ error: error.message || 'Internal server error.' });
 });
 
-if (process.env.NODE_ENV !== 'test') {
+if (process.env.NODE_ENV !== 'test' && !process.env.VERCEL) {
   app.listen(config.port, () => {
     console.log(`FortyGuard Explorer API listening on port ${config.port}`);
   });

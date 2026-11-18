@@ -12,6 +12,17 @@ npm run dev
 
 Set `FRONTEND_ORIGIN` to the exact origin of the separately deployed Angular app. Keep the FortyGuard API key in this backend's `.env`; never add it to the frontend.
 
+## Vercel deployment
+
+The backend is configured for `https://fortyguard-explorer-backend.vercel.app`. Set these environment variables in the Vercel project:
+
+- `FRONTEND_ORIGIN=https://your-fortyguard-frontend.vercel.app`
+- `FORTYGUARD_API_KEY=...`
+- `FORTYGUARD_LIVE_ENABLED=false` until the FortyGuard response mapping is verified
+- `FORTYGUARD_REQUEST_TIMEOUT_MS=15000`
+- `FORTYGUARD_POLL_INTERVAL_MS=2000`
+- `FORTYGUARD_MAX_POLL_ATTEMPTS=30`
+
 ## Tests
 
 ```powershell
